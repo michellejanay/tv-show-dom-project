@@ -32,6 +32,9 @@ p {
   max-width: 250px;
 }
 footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
 }
 footer > p {

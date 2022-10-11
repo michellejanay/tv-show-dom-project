@@ -23,7 +23,10 @@ function makePageForEpisodes(episodeList) {
       e.number < 10 ? "0" + e.number : e.number
     }`;
     img.setAttribute("src", e.image.medium);
-    p.innerText = e.summary.slice(3, -4);
+    p.innerText = e.summary
+      .replaceAll("<p>", "")
+      .replaceAll("</p>", "")
+      .replaceAll("<br>", "");
     article.append(h4, img, p);
     rootElem.append(article);
   });
