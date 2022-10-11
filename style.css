@@ -34,3 +34,14 @@ footer > p {
   padding: 0rem;
   margin: 0rem;
 }
+
+@media only screen and (max-width: 600px) {
+  header {
+    flex-direction: column;
+  }
+  header > select,
+  header > input,
+  header > p {
+    margin: 0.3rem 1rem;
+  }
+}
