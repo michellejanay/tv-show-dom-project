@@ -88,6 +88,7 @@ const onePageEpisode = (episode) => {
     article.append(h2, img, p);
     article.style.justifyContent = "center";
     rootElem.append(article);
+    numOfShows.innerText = `Displaying 1/73 episode(s)`;
   });
 };
 window.onload = setup;
