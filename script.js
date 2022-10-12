@@ -59,7 +59,7 @@ const drop = () => {
     } - ${e.name}`;
     dropdown.append(option);
   });
-  
+
   dropdown.addEventListener("change", (e) => {
     rootElem.innerHTML = "";
     let selected = allEpisodes.filter(
@@ -67,8 +67,27 @@ const drop = () => {
     );
     e.target.value === "see-all"
       ? makePageForEpisodes(allEpisodes)
-      : makePageForEpisodes(selected);
+      : onePageEpisode(selected);
   });
 };
 
+const onePageEpisode = (episode) => {
+  episode.forEach((e) => {
+    const article = document.createElement("article");
+    const h2 = document.createElement("h2");
+    const img = document.createElement("img");
+    const p = document.createElement("p");
+
+    h2.innerText = `${e.name} - S0${e.season}E${
+      e.number < 10 ? "0" + e.number : e.number
+    }`;
+    img.setAttribute("src", e.image.original);
+    p.innerHTML = e.summary;
+    p.style.maxWidth = "720px";
+    img.style.maxWidth = "720px";
+    article.append(h2, img, p);
+    article.style.justifyContent = "center";
+    rootElem.append(article);
+  });
+};
 window.onload = setup;

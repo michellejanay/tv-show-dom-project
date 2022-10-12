@@ -1,3 +1,6 @@
+body {
+  margin: 0;
+}
 header {
   display: flex;
   padding: 1rem;
@@ -14,9 +17,13 @@ header > p {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  background-color: black;
+  margin: 0;
 }
 article {
   padding: 1rem 2rem;
+  background-color: white;
+  border: solid 1rem black;
 }
 h3,
 h4 {
@@ -29,6 +36,7 @@ article > p {
 }
 footer {
   text-align: center;
+  padding: 1rem 0rem 1.5rem;
 }
 footer > p {
   padding: 0rem;
