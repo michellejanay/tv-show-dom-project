@@ -17,16 +17,21 @@ function makePageForEpisodes(episodeList) {
     const h4 = document.createElement("h4");
     const img = document.createElement("img");
     const p = document.createElement("p");
-
-    h4.innerText = `${e.name} - S0${e.season}E${
-      e.number < 10 ? "0" + e.number : e.number
-    }`;
+//make an if/else statement to check for images and sumamry
+    h4.innerText = `${e.name} - S${zeroPadded(e.season)}E${zeroPadded(
+      e.number
+    )}`;
+    //turn into a function ^
     img.setAttribute("src", e.image.medium);
     p.innerHTML = e.summary;
     article.append(h4, img, p);
     rootElem.append(article);
   });
 }
+
+const zeroPadded = (episodeCode) => {
+  return episodeCode.toString().padStart(2, 0);
+};
 
 //level-200
 const searchEpisodes = () => {
