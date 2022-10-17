@@ -21,6 +21,7 @@ header > p {
   margin: 0;
 }
 article {
+  font-family: "Courier New", Courier, monospace;
   padding: 1rem 2rem;
   background-color: white;
   border: solid 1rem black;

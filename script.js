@@ -2,11 +2,20 @@
 const allEpisodes = getAllEpisodes();
 const rootElem = document.getElementById("root");
 const numOfShows = document.getElementById("numOfShows");
+fetch("https://api.tvmaze.com/shows/527/episodes")
+  .then((response) => {
+    return response.json();
+  })
+  .then((episodes) => {
+    makePageForEpisodes(episodes);
+    searchEpisodes(episodes);
+    drop(episodes);
+  });
 
 function setup() {
-  makePageForEpisodes(allEpisodes);
+  // makePageForEpisodes(allEpisodes);
   drop();
-  //allEpisodes.forEach((e) => console.log(e.name));
+  searchEpisodes();
 }
 
 //level-100
@@ -17,11 +26,10 @@ function makePageForEpisodes(episodeList) {
     const h4 = document.createElement("h4");
     const img = document.createElement("img");
     const p = document.createElement("p");
-//make an if/else statement to check for images and sumamry
+    //make an if/else statement to check for images and sumamry
     h4.innerText = `${e.name} - S${zeroPadded(e.season)}E${zeroPadded(
       e.number
     )}`;
-    //turn into a function ^
     img.setAttribute("src", e.image.medium);
     p.innerHTML = e.summary;
     article.append(h4, img, p);
@@ -34,12 +42,12 @@ const zeroPadded = (episodeCode) => {
 };
 
 //level-200
-const searchEpisodes = () => {
+const searchEpisodes = (episode) => {
   const input = document.getElementById("search");
   input.addEventListener("input", (event) => {
     let searchTerm = event.target.value.toLowerCase();
 
-    let filteredEpisodes = allEpisodes.filter((item) => {
+    let filteredEpisodes = episode.filter((item) => {
       return (
         item.name.toLowerCase().includes(searchTerm) ||
         item.summary.toLowerCase().includes(searchTerm)
@@ -50,28 +58,27 @@ const searchEpisodes = () => {
     makePageForEpisodes(filteredEpisodes);
   });
 };
-searchEpisodes();
 
 //level-300
-const drop = () => {
+const drop = (episodes) => {
   const dropdown = document.getElementById("dropdown");
 
-  allEpisodes.forEach((e) => {
+  episodes.forEach((e) => {
     const option = document.createElement("option");
     option.setAttribute("value", e.name);
-    option.innerText = `S0${e.season}E${
-      e.number < 10 ? "0" + e.number : e.number
-    } - ${e.name}`;
+    option.innerText = `${e.name} - S${zeroPadded(e.season)}E${zeroPadded(
+      e.number
+    )}`;
     dropdown.append(option);
   });
 
   dropdown.addEventListener("change", (e) => {
     rootElem.innerHTML = "";
-    let selected = allEpisodes.filter(
+    let selected = episodes.filter(
       (episode) => episode.name === e.target.value
     );
     e.target.value === "see-all"
-      ? makePageForEpisodes(allEpisodes)
+      ? makePageForEpisodes(episodes)
       : onePageEpisode(selected);
   });
 };
