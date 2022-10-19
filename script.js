@@ -24,7 +24,6 @@ const fetching = (showID) => {
       makePageForEpisodes(episodes);
       searchEpisodes(episodes);
       drop(episodes);
-      //showDrop(episodes);
     });
 };
 function setup() {
@@ -86,7 +85,6 @@ const drop = (episodes) => {
     )}`;
     dropdown.append(option);
   });
-  //sort alphabetically ^^^
 
   dropdown.addEventListener("change", (e) => {
     rootElem.innerHTML = "";
@@ -106,17 +104,13 @@ const showDrop = (shows) => {
     const option = document.createElement("option");
     option.setAttribute("value", s.id);
     option.innerText = `${s.name}`;
-    console.log(option);
+    //console.log(option);
     dropdown.append(option);
   });
-
+  //sort alphabetically ^^^
   dropdown.addEventListener("change", (e) => {
     //console.log(e.target.value);
     rootElem.innerHTML = "";
-
-    // let selected = shows.filter((show) => show.id === e.target.value);
-    // console.log(selected);
-
     fetching(e.target.value);
   });
 };
