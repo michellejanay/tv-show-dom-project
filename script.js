@@ -5,33 +5,17 @@ const numOfShows = document.getElementById("numOfShows");
 const allShows = getAllShows().sort((a, b) =>
   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
 );
-// let obj = fetch("https://api.tvmaze.com/shows/" + showID + "/episodes").then(
-//   (response) => {
-//     return response.json();
-//   }
-// );
 
-// const check = (shows) => {
-//   return shows.forEach((show) => console.log(show.id + " " + show.name));
-// };
-// check(allShows);
-
-//get shows by id
-//store id in variable
-//use variable to fetch shows from api
-//populate shows based on id using show name
-//display shows episode information in drop dropdown
-//make sure functionality still works for all shows
-
-//let ID =
-
+//API call to get episodes for each show
 const fetching = (showID) => {
   fetch("https://api.tvmaze.com/shows/" + showID + "/episodes")
     .then((response) => {
-      return response.json();
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error("something went wrong");
     })
     .then((episodes) => {
-      //console.log(episodes);
       makePageForEpisodes(episodes);
       searchEpisodes(episodes);
       drop(episodes);
@@ -42,7 +26,7 @@ const fetching = (showID) => {
 };
 
 function setup() {
-  // makePageForEpisodes(allEpisodes);
+  makePageShows(allShows);
   drop();
   searchEpisodes();
 }
@@ -66,11 +50,29 @@ function makePageForEpisodes(episodeList) {
   });
 }
 
+//Make page for all shows (no season number information)
+function makePageShows(episodeList) {
+  //numOfShows.innerText = `Displaying ${episodeList.length}/${episodeList.length}`;
+  episodeList.forEach((e) => {
+    const article = document.createElement("article");
+    const h4 = document.createElement("h4");
+    const img = document.createElement("img");
+    const p = document.createElement("p");
+    //make an if/else statement to check for images and sumamry
+    h4.innerText = `${e.name}`;
+    img.setAttribute("src", e.image.medium);
+    p.innerHTML = e.summary;
+    article.append(h4, img, p);
+    rootElem.append(article);
+  });
+}
+
+//zero padded for season and episode display
 const zeroPadded = (episodeCode) => {
   return episodeCode.toString().padStart(2, 0);
 };
 
-//level-200
+//level-200 live-search
 const searchEpisodes = (episode) => {
   const input = document.getElementById("search");
   input.addEventListener("input", (event) => {
@@ -88,7 +90,7 @@ const searchEpisodes = (episode) => {
   });
 };
 
-//level-300
+//level-300 - episodes dropdown population and funcationality
 const drop = (episodes) => {
   const dropdown = document.getElementById("dropdown");
   dropdown.innerHTML = "";
@@ -120,6 +122,7 @@ const drop = (episodes) => {
   });
 };
 
+//show dropdown and functionality
 const showDrop = (shows) => {
   const dropdown = document.getElementById("shows-dropdown");
 
@@ -133,14 +136,13 @@ const showDrop = (shows) => {
   dropdown.addEventListener("change", (e) => {
     let showID = e.target.value;
     rootElem.innerHTML = "";
-
-    // console.log(obj);
-
-    fetching(showID);
+    e.target.value === "see-all" ? makePageShows(allShows) : fetching(showID);
+    // when see-all is clicked, clear episodes dropdown
   });
 };
 showDrop(allShows);
 
+//function to display episode information from episode dropdown
 const onePageEpisode = (episode) => {
   episode.forEach((e) => {
     const article = document.createElement("article");
