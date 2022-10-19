@@ -2,18 +2,28 @@
 const allEpisodes = getAllEpisodes();
 const rootElem = document.getElementById("root");
 const numOfShows = document.getElementById("numOfShows");
-const allShows = getAllShows();
+const allShows = getAllShows().sort((a, b) =>
+  a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+);
+// let obj = fetch("https://api.tvmaze.com/shows/" + showID + "/episodes").then(
+//   (response) => {
+//     return response.json();
+//   }
+// );
 
 // const check = (shows) => {
 //   return shows.forEach((show) => console.log(show.id + " " + show.name));
 // };
 // check(allShows);
+
 //get shows by id
 //store id in variable
-//use variable to fech shows from api
+//use variable to fetch shows from api
 //populate shows based on id using show name
 //display shows episode information in drop dropdown
 //make sure functionality still works for all shows
+
+//let ID =
 
 const fetching = (showID) => {
   fetch("https://api.tvmaze.com/shows/" + showID + "/episodes")
@@ -21,11 +31,16 @@ const fetching = (showID) => {
       return response.json();
     })
     .then((episodes) => {
+      //console.log(episodes);
       makePageForEpisodes(episodes);
       searchEpisodes(episodes);
       drop(episodes);
+    })
+    .catch((error) => {
+      console.log(error);
     });
 };
+
 function setup() {
   // makePageForEpisodes(allEpisodes);
   drop();
@@ -34,16 +49,16 @@ function setup() {
 
 //level-100
 function makePageForEpisodes(episodeList) {
-  numOfShows.innerText = `Displaying ${episodeList.length}/${episodeList.length}`;
+  //numOfShows.innerText = `Displaying ${episodeList.length}/${episodeList.length}`;
   episodeList.forEach((e) => {
     const article = document.createElement("article");
     const h4 = document.createElement("h4");
     const img = document.createElement("img");
     const p = document.createElement("p");
     //make an if/else statement to check for images and sumamry
-    h4.innerText = `${e.name} - S${zeroPadded(e.season)}E${zeroPadded(
-      e.number
-    )}`;
+    h4.innerText = `${e.name} - S0${e.season}E${
+      e.number < 10 ? "0" + e.number : e.number
+    }`;
     img.setAttribute("src", e.image.medium);
     p.innerHTML = e.summary;
     article.append(h4, img, p);
@@ -76,7 +91,15 @@ const searchEpisodes = (episode) => {
 //level-300
 const drop = (episodes) => {
   const dropdown = document.getElementById("dropdown");
-
+  dropdown.innerHTML = "";
+  const option = document.createElement("option");
+  option.setAttribute("value", "see-all");
+  option.innerText = "See All";
+  dropdown.append(option);
+  //clear list before
+  //check if it has episodes
+  //if no episodes say no available episodes
+  //re-add see all
   episodes.forEach((e) => {
     const option = document.createElement("option");
     option.setAttribute("value", e.name);
@@ -104,14 +127,16 @@ const showDrop = (shows) => {
     const option = document.createElement("option");
     option.setAttribute("value", s.id);
     option.innerText = `${s.name}`;
-    //console.log(option);
     dropdown.append(option);
   });
-  //sort alphabetically ^^^
+
   dropdown.addEventListener("change", (e) => {
-    //console.log(e.target.value);
+    let showID = e.target.value;
     rootElem.innerHTML = "";
-    fetching(e.target.value);
+
+    // console.log(obj);
+
+    fetching(showID);
   });
 };
 showDrop(allShows);
