@@ -5,6 +5,7 @@ const numOfShows = document.getElementById("numOfShows");
 const allShows = getAllShows().sort((a, b) =>
   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
 );
+const dropdown = document.getElementById("dropdown");
 
 //API call to get episodes for each show
 const fetching = (showID) => {
@@ -36,6 +37,7 @@ function makePageForEpisodes(episodeList) {
   //numOfShows.innerText = `Displaying ${episodeList.length}/${episodeList.length}`;
   episodeList.forEach((e) => {
     const article = document.createElement("article");
+    article.classList.add("episodes-article");
     const h4 = document.createElement("h4");
     const img = document.createElement("img");
     const p = document.createElement("p");
@@ -47,6 +49,7 @@ function makePageForEpisodes(episodeList) {
     p.innerHTML = e.summary;
     article.append(h4, img, p);
     rootElem.append(article);
+    dropdown.style.display = "block";
   });
 }
 
@@ -55,15 +58,39 @@ function makePageShows(episodeList) {
   //numOfShows.innerText = `Displaying ${episodeList.length}/${episodeList.length}`;
   episodeList.forEach((e) => {
     const article = document.createElement("article");
-    const h4 = document.createElement("h4");
+    article.classList.add("shows-article");
+    const div = document.createElement("div");
+    const h1 = document.createElement("h1");
     const img = document.createElement("img");
     const p = document.createElement("p");
-    //make an if/else statement to check for images and sumamry
-    h4.innerText = `${e.name}`;
+    const div2 = document.createElement("div");
+    const div3 = document.createElement("div");
+    const rated = document.createElement("p");
+    const status = document.createElement("p");
+    const genre = document.createElement("p");
+    const runtime = document.createElement("p");
+    h1.innerText = `${e.name}`;
     img.setAttribute("src", e.image.medium);
     p.innerHTML = e.summary;
-    article.append(h4, img, p);
+    div.append(img, p);
+    div.classList.add("img-summary");
+    div2.classList.add("card");
+    div3.classList.add("container");
+    rated.innerHTML = `<strong>Rated</strong>: ${e.rating.average}`;
+    genre.innerHTML = `<strong>Genres</strong>: ${e.genres}`;
+    status.innerHTML = `<strong>Status</strong>: ${e.status}`;
+    runtime.innerHTML = `<strong>Runtime</strong>: ${e.runtime}`;
+    div2.append(rated, genre, status, runtime);
+    p.style.width = "100%";
+    article.style.width = "100%";
+    rootElem.style.flexDirection = "column";
+    dropdown.style.display = "none";
+    div3.append(div, div2);
+    article.append(h1, div3);
     rootElem.append(article);
+    //add genres, status, rating, and runtime
+    //add event listeners to each show to take them to the episodes page
+    //search functionality to search through shows
   });
 }
 
@@ -87,6 +114,8 @@ const searchEpisodes = (episode) => {
     rootElem.innerHTML = "";
     numOfShows.innerText = `Displaying ${filteredEpisodes.length}/${episode.length}`;
     makePageForEpisodes(filteredEpisodes);
+
+    //fix search for shows. Not searching on shows
   });
 };
 
