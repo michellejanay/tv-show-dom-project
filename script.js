@@ -213,6 +213,8 @@ const epiDisplay = document.getElementById("epi-display");
 const onePageDisplay = document.getElementById("one-page-display");
 const episodeInput = document.getElementById("search");
 const showInput = document.getElementById("show-search");
+const seeAllBtn = document.getElementById("see-all-shows");
+const showsDropdown = document.getElementById("shows-dropdown");
 
 const allShows = getAllShows().sort((a, b) =>
   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
@@ -247,16 +249,14 @@ const fetching = (showID) => {
 
 //Dropdown for shows
 const showDrop = (shows) => {
-  const dropdown = document.getElementById("shows-dropdown");
-
   shows.forEach((s) => {
     const option = document.createElement("option");
     option.setAttribute("value", s.id);
     option.innerText = `${s.name}`;
-    dropdown.append(option);
+    showsDropdown.append(option);
   });
 
-  dropdown.addEventListener("change", (e) => {
+  showsDropdown.addEventListener("change", (e) => {
     const showID = e.target.value;
     console.log(showID);
     root.innerHTML = "";
@@ -333,6 +333,8 @@ const makePageShows = (shows) => {
   onePageDisplay.innerHTML = "";
   episodeInput.style.display = "none";
   showInput.style.display = "block";
+  seeAllBtn.style.display = "none";
+  dropdown.style.display = "block";
   //numOfShows.innerText = `Displaying ${episodeList.length}/${episodeList.length}`;
   shows.forEach((e) => {
     if (e.image && e.summary) {
@@ -355,6 +357,7 @@ const makePageShows = (shows) => {
       p.classList.add("show-summary");
 
       h1.innerText = e.name;
+      h1.value = e.id;
       img.src = e.image.medium;
       p.innerHTML = e.summary;
       div.append(img, p);
@@ -371,11 +374,11 @@ const makePageShows = (shows) => {
       div3.append(div, hr, div2);
       article.append(h1, div3);
       root.append(article);
-    }
 
-    // shows.addEventListener("click", () => {
-    //   console.log("i have been clicked");
-    // });
+      h1.addEventListener("click", () => {
+        fetching(h1.value);
+      });
+    }
   });
 };
 
@@ -389,6 +392,12 @@ const makePageForEpisodes = (episode) => {
   root.innerHTML = "";
   onePageDisplay.innerHTML = "";
   showInput.style.display = "none";
+  seeAllBtn.style.display = "block";
+  dropdown.style.display = "none";
+
+  seeAllBtn.addEventListener("click", () => {
+    makePageShows(allShows);
+  });
 
   episode.forEach((e) => {
     const article = document.createElement("article");
