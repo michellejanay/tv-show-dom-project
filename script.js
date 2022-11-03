@@ -277,7 +277,7 @@ const searchShows = (show) => {
       );
     });
     root.innerHTML = "";
-    // numOfShows.innerText = `Displaying ${filteredShows.length}/${episode.length}`;
+    numOfShows.innerText = `Displaying ${filteredShows.length}/${episode.length}`;
     makePageShows(filteredShows);
   });
 };
@@ -335,6 +335,7 @@ const makePageShows = (shows) => {
   showInput.style.display = "block";
   seeAllBtn.style.display = "none";
   dropdown.style.display = "block";
+  numOfShows.style.display = "none";
   //numOfShows.innerText = `Displaying ${episodeList.length}/${episodeList.length}`;
   shows.forEach((e) => {
     if (e.image && e.summary) {
@@ -394,6 +395,7 @@ const makePageForEpisodes = (episode) => {
   showInput.style.display = "none";
   seeAllBtn.style.display = "block";
   dropdown.style.display = "none";
+  numOfShows.style.display = "block";
 
   seeAllBtn.addEventListener("click", () => {
     makePageShows(allShows);
