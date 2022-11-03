@@ -328,13 +328,13 @@ const searchEpisodes = (episode) => {
   });
 };
 //Page for shows
-const makePageShows = (episodeList) => {
+const makePageShows = (shows) => {
   epiDisplay.innerHTML = "";
   onePageDisplay.innerHTML = "";
   episodeInput.style.display = "none";
   showInput.style.display = "block";
   //numOfShows.innerText = `Displaying ${episodeList.length}/${episodeList.length}`;
-  episodeList.forEach((e) => {
+  shows.forEach((e) => {
     if (e.image && e.summary) {
       const article = document.createElement("article");
       article.classList.add("shows-article");
@@ -372,6 +372,10 @@ const makePageShows = (episodeList) => {
       article.append(h1, div3);
       root.append(article);
     }
+
+    // shows.addEventListener("click", () => {
+    //   console.log("i have been clicked");
+    // });
   });
 };
 
