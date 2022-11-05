@@ -6,6 +6,7 @@ const episodeInput = document.getElementById("search");
 const showInput = document.getElementById("show-search");
 const seeAllBtn = document.getElementById("see-all-shows");
 const showsDropdown = document.getElementById("shows-dropdown");
+const dropdown = document.getElementById("dropdown");
 
 const allShows = getAllShows().sort((a, b) =>
   a.name > b.name ? 1 : b.name > a.name ? -1 : 0
@@ -78,8 +79,9 @@ const searchShows = (show) => {
 const episodeDrop = (episodes) => {
   const dropdown = document.getElementById("dropdown");
   dropdown.innerHTML = "";
+
   const option = document.createElement("option");
-  option.setAttribute("value", "see-all");
+  option.value = "see-all";
   option.innerText = "See All";
   dropdown.append(option);
 
@@ -116,8 +118,8 @@ const searchEpisodes = (episode) => {
         item.summary.toLowerCase().includes(searchTerm)
       );
     });
-    epiDisplay.innerHTML = "";
-    numOfShows.innerText = `Displaying ${filteredEpisodes.length}/${episode.length}`;
+    root.innerHTML = "";
+    // numOfShows.innerText = `Displaying ${filteredEpisodes.length}/${episode.length}`;
     makePageForEpisodes(filteredEpisodes);
   });
 };
@@ -191,9 +193,10 @@ const makePageForEpisodes = (episode) => {
   showInput.style.display = "none";
   seeAllBtn.style.display = "block";
   dropdown.style.display = "none";
-  numOfShows.style.display = "block";
+  numOfShows.style.display = "none";
   showsDropdown.style.display = "none";
   showsDropdown.options.selectedIndex = 0;
+  episodeInput.style.display = "block";
 
   seeAllBtn.addEventListener("click", () => {
     makePageShows(allShows);
@@ -210,7 +213,7 @@ const makePageForEpisodes = (episode) => {
     h4.innerText = `${e.name} - S0${e.season}E${seasonEpisode(e.number)}`;
     img.src = e.image.medium;
     p.innerHTML = e.summary;
-    
+
     article.append(h4, img, p);
     epiDisplay.append(article);
 
@@ -231,7 +234,9 @@ const onePageEpisode = (episode) => {
     const img = document.createElement("img");
     const p = document.createElement("p");
 
-    h2.innerText = `${e.name} - S${seasonEpisode(e)}E${seasonEpisode(e)}`;
+    h2.innerText = `${e.name} - S${seasonEpisode(e.number)}E${seasonEpisode(
+      e.number
+    )}`;
     img.setAttribute("src", e.image.original);
     p.innerHTML = e.summary;
     img.style.maxWidth = "720px";
