@@ -107,9 +107,7 @@ const episodeDrop = (episodes) => {
 
 //search for episodes
 const searchEpisodes = (episode) => {
-  const input = document.getElementById("search");
-
-  input.addEventListener("input", (event) => {
+  episodeInput.addEventListener("input", (event) => {
     let searchTerm = event.target.value.toLowerCase();
 
     let filteredEpisodes = episode.filter((item) => {
@@ -119,6 +117,7 @@ const searchEpisodes = (episode) => {
       );
     });
     root.innerHTML = "";
+    epiDisplay.innerHTML = "";
     // numOfShows.innerText = `Displaying ${filteredEpisodes.length}/${episode.length}`;
     makePageForEpisodes(filteredEpisodes);
   });
