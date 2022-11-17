@@ -7,15 +7,35 @@
   <title>TV Show Project | Michelle Janay (michellejanaycodes)</title>
   <link href="style.css" rel="stylesheet" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
 </head>
 
 <body>
+  <header>
+    <select name="dropdown" id="shows-dropdown">
+      <option value="see-all" default>See All Shows</option>
+    </select>
+    <select name="dropdown" id="dropdown">
+      <option value="see-all" default>See All Episodes</option>
+    </select>
+    <input type="text" id="search" placeholder="&#xF002; search">
+    <input type="text" id="show-search" placeholder="&#xF002; search">
+    <p id="numOfShows"></p>
+    <button id="see-all-shows">See all shows</button>
+  </header>
   <div id="root">
   </div>
-
+  <div id="epi-display"></div>
+  <div id="one-page-display"></div>
+  <footer>
+    <p>Data originally from TVMaze.com</p>
+    <p>See <a href="https://www.tvmaze.com/api#licensing">TV Maze API Licensing</a> for more information</p>
+  </footer>
   <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
+  <script src="shows.js"></script>
   <script src="episodes.js"></script>
-
   <!-- Loads YOUR javascript code -->
   <script src="script.js"></script>
 </body>
