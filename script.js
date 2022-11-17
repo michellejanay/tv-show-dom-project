@@ -20,7 +20,7 @@ const setup = () => {
 };
 
 //API function
-const fetching = (showID) => {
+const fetchEpisodes = (showID) => {
   let url = "https://api.tvmaze.com/shows/" + showID + "/episodes";
   console.log(url);
   fetch(url)
@@ -53,7 +53,9 @@ const showDrop = (shows) => {
     const showID = e.target.value;
     console.log(showID);
     root.innerHTML = "";
-    e.target.value === "see-all" ? makePageShows(allShows) : fetching(showID);
+    e.target.value === "see-all"
+      ? makePageShows(allShows)
+      : fetchEpisodes(showID);
   });
 };
 
@@ -118,7 +120,7 @@ const searchEpisodes = (episode) => {
     });
     root.innerHTML = "";
     epiDisplay.innerHTML = "";
-    // numOfShows.innerText = `Displaying ${filteredEpisodes.length}/${episode.length}`;
+    numOfShows.innerText = `Displaying ${filteredEpisodes.length}/${episode.length}`;
     makePageForEpisodes(filteredEpisodes);
   });
 };
@@ -130,7 +132,7 @@ const makePageShows = (shows) => {
   episodeInput.style.display = "none";
   showInput.style.display = "block";
   seeAllBtn.style.display = "none";
-  dropdown.style.display = "block";
+  dropdown.style.display = "none";
   showsDropdown.style.display = "block";
 
   shows.forEach((e) => {
@@ -173,7 +175,7 @@ const makePageShows = (shows) => {
       root.append(article);
 
       h1.addEventListener("click", () => {
-        fetching(h1.value);
+        fetchEpisodes(h1.value);
         showsDropdown.options.selectedIndex = 0;
       });
     }
